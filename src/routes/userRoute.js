@@ -53,6 +53,23 @@ const router = express.Router();
  *             example: { token: 'JWT_TOKEN_HERE' }
  */
 
+/**
+ * @openapi
+ * /user:
+ *   delete:
+ *     summary: Delete a user account
+ *     description: Endpoint to delete a user account.
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User account deleted successfully
+ *         content:
+ *           application/json:
+ *             example: { message: 'User account deleted successfully' }
+ */
+
 const userController = require('../controllers/userController');
 const jwtMiddlewares = require('../Middlewares/jwtMiddleware');
 
