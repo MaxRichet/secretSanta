@@ -12,7 +12,7 @@ const router = express.Router();
  * /user/register:
  *   post:
  *     summary: Register a new user
- *     description: Endpoint to register a new user.
+ *     description: Endpoint to register a new user with an email and password.
  *     tags: [Users]
  *     requestBody:
  *       required: true
@@ -23,11 +23,14 @@ const router = express.Router();
  *             properties:
  *               // Define your request body properties here
  *     responses:
- *       200:
+ *       201:
  *         description: User registered successfully
  *         content:
- *           application/json:
- *             example: { message: 'User registered successfully' }
+ *           application/json: { message: 'Utilisateur crée: ${user.email}' }
+ *       401:
+ *         description: Bad request
+ *         content:
+ *           application/json: { message: 'Requête invalide' }
  */
 
 /**
@@ -35,13 +38,23 @@ const router = express.Router();
  * /user/login:
  *   post:
  *     summary: Login as an existing user
- *     description: Endpoint to login as an existing user.
+ *     description: Endpoint to login as an existing user with an existing email and password.
  *     tags: [Users]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema:
+ *           schema: {
+                        email: {
+                            type: String,
+                            required: true,
+                            unique: true
+                        },
+                        password: {
+                            type: String,
+                            required: true
+                        }
+                    }
  *             type: object
  *             properties:
  *               // Define your request body properties here
@@ -49,8 +62,19 @@ const router = express.Router();
  *       200:
  *         description: User logged in successfully
  *         content:
- *           application/json:
- *             example: { token: 'JWT_TOKEN_HERE' }
+ *           application/json: { token }
+ *      500:
+ *         description: User not found
+ *         content:
+ *           application/json: utilisateur non trouvé
+ *      401:
+ *         description: Email or password wrong
+ *         content:
+ *           application/json: Email ou password incorrect
+ *      500:
+ *         description: Eror coming during processing
+ *         content:
+ *           application/json: Une erreur s'est produit lors du traitement
  */
 
 /**
@@ -66,8 +90,11 @@ const router = express.Router();
  *       200:
  *         description: User account deleted successfully
  *         content:
- *           application/json:
- *             example: { message: 'User account deleted successfully' }
+ *           application/json: { message: 'Compte supprimé' }
+ *       500:
+ *         description: servor error
+ *         content:
+ *           application/json: { message: 'erreur serveur' }
  */
 
 const userController = require('../controllers/userController');
