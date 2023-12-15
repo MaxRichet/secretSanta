@@ -32,7 +32,8 @@ exports.userLogin = async (req, res) => {
             res.status(500).json({message: "utilisateur non trouvé"});
             return;
         }
-        if(user.email === req.body.email && user.password === req.body.password) {
+        const comparePass = bcrypt.compare(req.body.password, user.password);
+        if(user.email === req.body.email && comparePass) {
             const userData = {
                 id: user._id,
                 email: user.email,
