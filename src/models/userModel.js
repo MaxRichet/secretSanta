@@ -10,6 +10,10 @@ let userSchema = new Schema ({
     password: {
         type: String,
         required: true
+    },
+    exist: {
+        type: Boolean,
+        required: true
     }
 })
 

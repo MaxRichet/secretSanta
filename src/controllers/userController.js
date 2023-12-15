@@ -7,22 +7,17 @@ const saltRounds = 10;
 
 exports.userRegister = async (req, res) => {
     try{
-        // const pass = req.body.password;
-        // const salt = bcrypt.genSaltSync(saltRounds);
-        // const hash = bcrypt.hashSync(req.body.password, salt);
-
-        bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+        const hashPass = await bcrypt.hash(req.body.password, saltRounds);
             
-        let newUser = new User({...req.body, password: hash});
+        let newUser = new User({...req.body, password: hashPass, exist: 1});
         let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
         if(regex.test(req.body.email)){
-            let user = newUser.save();
+            let user = await newUser.save();
             res.status(201).json({message: `Utilisateur crée: ${user.email}`});
         } else {
             res.status(401).json({message: "E-mail non valide"});
         }
-    });
     } catch(error) {
         console.log(error);
         res.status(401).json({message: "Requête invalide"});
