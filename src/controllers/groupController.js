@@ -22,7 +22,14 @@ exports.createGroup = async (req, res) => {
                 const newGroup = new Group({admin_id: req.user.id});
                 
                 const group = await newGroup.save();
-                res.status(201).json(`Votre groupe à bien été créer ${req.user.email}.`);
+
+                const groupData = {
+                    id: newGroup._id,
+                    admin_id: newGroup.admin_id
+                };
+                const groupToken = await jwt.sign(groupData, process.env.JWT_KEY, {expiresIn: "24h"});
+
+                res.status(201).json(`Votre groupe à bien été créer ${req.user.email}. Token : ${groupToken}`);
             } catch(error) {
                 res.status(500).json({message: "Erreur serveur"});
             }

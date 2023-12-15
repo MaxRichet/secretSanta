@@ -16,9 +16,11 @@ app.use(express.json());
 
 const userRoute = require(`./routes/userRoute`);
 const groupRoute = require(`./routes/groupRoute`);
+const inviteRoute = require(`./routes/inviteRoute`);
 
 app.use('/', userRoute);
 app.use('/', groupRoute);
+app.use('/', inviteRoute);
 
 app.listen(port, () => {
   console.log(`Exemple app listening on port ${port}`)

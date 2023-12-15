@@ -7,7 +7,7 @@ let inviteSchema = new Schema ({
         required: true
     },
     user_id: {
-        type: Array,
+        type: String,
         required: true
     },
     isAccept: {

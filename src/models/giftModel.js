@@ -2,13 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let giftSchema = new Schema ({
-    giver_id: {
-        type: String,
-        required: true
-    },
-    receiver_id: {
-        type: String,
-        required: true
+    gift: {
+        type: Array
     },
     group_id: {
         type: String,
