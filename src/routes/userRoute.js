@@ -12,8 +12,10 @@ const router = express.Router();
  * /user/register:
  *   post:
  *     summary: Register a new user
- *     description: Endpoint to register a new user with an email and password.
+ *     description: Endpoint to register a new user
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -21,80 +23,89 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               // Define your request body properties here
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               exist:
+ *                 type: boolean
+ *             required:
+ *               - email
+ *               - password
+ *               - exist
  *     responses:
  *       201:
- *         description: User registered successfully
+ *         description: User created successfully
  *         content:
- *           application/json: { message: 'Utilisateur crée: ${user.email}' }
+ *           application/json:
+ *             example: { message: 'User created successfully' }
  *       401:
  *         description: Bad request
  *         content:
- *           application/json: { message: 'Requête invalide' }
+ *           application/json:
+ *             example: { message: 'Bad request' }
  */
+
 
 /**
  * @openapi
  * /user/login:
  *   post:
  *     summary: Login as an existing user
- *     description: Endpoint to login as an existing user with an existing email and password.
+ *     description: Endpoint to login as an existing user with an   * existing email and password.
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema: {
-                        email: {
-                            type: String,
-                            required: true,
-                            unique: true
-                        },
-                        password: {
-                            type: String,
-                            required: true
-                        }
-                    }
+ *           schema:
  *             type: object
  *             properties:
- *               // Define your request body properties here
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - email
+ *               - password
  *     responses:
  *       200:
  *         description: User logged in successfully
  *         content:
- *           application/json: { token }
- *      500:
- *         description: User not found
- *         content:
- *           application/json: utilisateur non trouvé
- *      401:
+ *           application/json:
+ *             example: { message: 'User logged in successfully' }
+ *       401:
  *         description: Email or password wrong
  *         content:
- *           application/json: Email ou password incorrect
- *      500:
- *         description: Eror coming during processing
+ *           application/json:
+ *             example: { message: 'Email or password wrong' }
+ *       500:
+ *         description: User not found
  *         content:
- *           application/json: Une erreur s'est produit lors du traitement
+ *           application/json: User not found
  */
 
 /**
  * @openapi
- * /user:
+ * /user/delete:
  *   delete:
  *     summary: Delete a user account
- *     description: Endpoint to delete a user account.
+ *     description: Endpoint to login as an existing user with an existing email and password.
  *     tags: [Users]
  *     security:
  *       - BearerAuth: []
  *     responses:
  *       200:
- *         description: User account deleted successfully
+ *         description: User logged in successfully
  *         content:
- *           application/json: { message: 'Compte supprimé' }
+ *           application/json:
+ *             example: { message: 'User logged in successfully' }
  *       500:
  *         description: servor error
  *         content:
- *           application/json: { message: 'erreur serveur' }
+ *           application/json: servor error
  */
 
 const userController = require('../controllers/userController');
