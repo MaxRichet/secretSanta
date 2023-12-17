@@ -120,7 +120,7 @@ const jwtMiddlewares = require('../Middlewares/jwtMiddleware');
         .post(userController.userLogin);
     
     router
-        .route('/user')
+        .route('/user/delete')
         .delete(jwtMiddlewares.verifyToken, userController.userDelete);
 
 module.exports = router;

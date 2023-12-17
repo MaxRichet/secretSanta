@@ -1,4 +1,6 @@
 const User = require('../models/userModel');
+const Group = require('../models/groupModel');
+const Invite = require('../models/inviteModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
@@ -67,6 +69,20 @@ exports.userDelete = async (req, res) => {
             
             req.user = payload;
             
+            const a = await Group.find({});
+            const b = await Invite.find({});
+
+            for(i = 0; i < a.length; i++){
+                if(req.user.id == a[i].admin_id){
+                    await Group.findByIdAndDelete(a[i]._id);
+                }
+            }
+            for(i = 0; i < b.length; i++){
+                if(req.user.id == b[i].user_id){
+                    await Invite.findByIdAndDelete(b[i]._id);
+                }
+            }
+
             await User.findByIdAndDelete(req.user.id);
             res.status(200).json({message: 'Compte supprimé'});
         }
