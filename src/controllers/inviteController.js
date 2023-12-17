@@ -136,6 +136,8 @@ exports.acceptInvite = async (req, res) => {
                 group.members_id = array;
                 await Group.findByIdAndUpdate(req.invite.group_id, group);
 
+                await Invite.findByIdAndDelete(req.invite.id);
+
                 res.status(201).json({message: `Vous avez accepter la demande.`});
 
             } catch(error) {
@@ -166,6 +168,8 @@ exports.refuseInvite = async (req, res) => {
             req.invite = payload;
             try{
                 await Invite.findByIdAndUpdate(req.invite.id, {isAccept: false});
+
+                await Invite.findByIdAndDelete(req.invite.id);
 
                 res.status(201).json({message: `Vous avez refuser la demande.`});
 
