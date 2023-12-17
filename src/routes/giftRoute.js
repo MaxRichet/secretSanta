@@ -48,7 +48,7 @@
 /**
  * @openapi
  * /adminList:
- *   post:
+ *   get:
  *     summary: Give the group list
  *     description: Give the group list if its admin
  *     tags: [Gift]
@@ -60,6 +60,32 @@
  *         content:
  *           application/json:
  *             example: { message: 'The list of all group' }
+ *       403:
+ *         description: Missing token
+ *         content:
+ *           application/json:
+ *             example: { message: 'Missing token' }
+ *       500:
+ *         description: Servor error
+ *         content:
+ *           application/json: Servor error
+ */
+
+/**
+ * @openapi
+ * /findMyReceiver:
+ *   get:
+ *     summary: Give your receiver
+ *     description: Give your receiver
+ *     tags: [Gift]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       201:
+ *         description: Your receiver
+ *         content:
+ *           application/json:
+ *             example: { message: 'Your receiver' }
  *       403:
  *         description: Missing token
  *         content:
@@ -83,5 +109,9 @@ const router = express.Router();
     router
         .route('/adminList')
         .get(jwtMiddlewares.verifyToken, giftController.adminList);
+
+    router
+        .route('/findMyReceiver')
+        .get(jwtMiddlewares.verifyToken, giftController.findMyReceiver);
 
 module.exports = router;
