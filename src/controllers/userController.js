@@ -9,7 +9,7 @@ exports.userRegister = async (req, res) => {
     try{
         const hashPass = await bcrypt.hash(req.body.password, saltRounds);
             
-        let newUser = new User({...req.body, password: hashPass, exist: 1});
+        let newUser = new User({...req.body, password: hashPass, exist: true});
         let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
         if(regex.test(req.body.email)){

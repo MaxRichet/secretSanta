@@ -3,8 +3,8 @@ const User = require('../models/userModel');
 const Group = require('../models/groupModel');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-// const bcrypt = require('bcrypt');
-// const saltRounds = 10;
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 // exports.createInvite = async (req, res) => {
 //     try{
